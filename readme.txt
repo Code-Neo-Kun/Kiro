@@ -2,7 +2,7 @@
 Contributors: Uddhav Shrimali
 Tags: cursor, custom cursor, mouse cursor, animation, smooth cursor
 Requires at least: 5.8
-Tested up to: 6.7
+Tested up to: 7.0
 Requires PHP: 8.0
 Stable tag: 1.0.0
 License: GPLv2 or later

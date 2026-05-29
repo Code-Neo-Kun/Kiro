@@ -36,7 +36,7 @@ function kiro_cursor_settings_page(): void {
 			sanitize_hex_color( wp_unslash( $_POST['kiro_cursor_color'] ?? '' ) ) ?: '#00ffff'
 		);
 
-		$size = (int) ( $_POST['kiro_cursor_size'] ?? 12 );
+		$size = (int) wp_unslash( $_POST['kiro_cursor_size'] ?? 12 );
 		update_option( 'kiro_cursor_size', max( 4, min( 60, $size ) ) );
 
 		update_option(

@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: Kiro Cursor
- * Plugin URI:  https://example.com/kiro-cursor
+ * Plugin URI:  https://github.com/Code-Neo-Kun/Kiro.git
  * Description: Adds a smooth, customizable cursor with 8 predefined styles and animation presets.
  * Version:     1.0.0
  * Author:      Neo
- * Author URI:  https://example.com
+ * Author URI:  https://www.linkedin.com/in/uddhav-shrimali-000828284
  * License:     GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: kiro-cursor
@@ -96,7 +96,7 @@ function kiro_cursor_inline_config(): void {
 	printf(
 		"<style id=\"kiro-cursor-vars\">:root{--kiro-color:%s;--kiro-size:%dpx;}</style>\n",
 		esc_attr( $color ),
-		$size
+		absint( $size )
 	);
 
 	printf(
@@ -175,13 +175,12 @@ add_action( 'admin_menu', 'kiro_cursor_register_menu' );
  *
  * init priority 1 ensures translations are ready before any hook that
  * might output translatable strings (e.g. admin_menu at priority 10).
+ *
+ * Note: load_plugin_textdomain() is no longer needed when the plugin is hosted
+ * on WordPress.org, as translations are automatically loaded by WordPress.
  */
 function kiro_cursor_load_textdomain(): void {
-	load_plugin_textdomain(
-		'kiro-cursor',
-		false,
-		dirname( plugin_basename( __FILE__ ) ) . '/languages'
-	);
+	// Translations are automatically loaded by WordPress for plugins on WordPress.org.
 }
 add_action( 'init', 'kiro_cursor_load_textdomain', 1 );
 
