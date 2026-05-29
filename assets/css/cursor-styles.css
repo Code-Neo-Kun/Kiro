@@ -1,0 +1,258 @@
+/*
+ * cursor-styles.css — Kiro Cursor v3.1
+ *
+ * ALL visual rules target .kiro-inner (the inner shell), NOT #kiro-cursor directly.
+ * This is the key fix — animations and hover states work because JS never
+ * touches .kiro-inner's transform. JS only moves the outer #kiro-cursor wrapper.
+ *
+ * Hover state: body.kiro-hover targets .kiro-inner for scale changes.
+ */
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   1. DOT + RING
+══════════════════════════════════════════════════════════════════════════════ */
+body[data-kiro-style="dot-ring"] #kiro-cursor .kiro-inner {
+    width:  var(--kiro-size, 12px);
+    height: var(--kiro-size, 12px);
+    border-radius: 50%;
+    background: var(--kiro-color, #00ffff);
+    mix-blend-mode: difference;
+}
+
+body[data-kiro-style="dot-ring"] #kiro-cursor-ring .kiro-inner {
+    width:  calc(var(--kiro-size, 12px) * 3.5);
+    height: calc(var(--kiro-size, 12px) * 3.5);
+    border-radius: 50%;
+    border: 1.5px solid var(--kiro-color, #00ffff);
+    opacity: 0.6;
+    mix-blend-mode: difference;
+}
+
+body[data-kiro-style="dot-ring"].kiro-hover #kiro-cursor .kiro-inner {
+    transform: translate(-50%, -50%) scale(2);
+}
+body[data-kiro-style="dot-ring"].kiro-hover #kiro-cursor-ring .kiro-inner {
+    transform: translate(-50%, -50%) scale(0.6);
+    opacity: 0.3;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   2. CROSSHAIR
+══════════════════════════════════════════════════════════════════════════════ */
+body[data-kiro-style="crosshair"] #kiro-cursor .kiro-inner {
+    width:  var(--kiro-size, 12px);
+    height: var(--kiro-size, 12px);
+    border-radius: 50%;
+    background: var(--kiro-color, #00ffff);
+    box-shadow: 0 0 6px var(--kiro-color, #00ffff);
+}
+
+body[data-kiro-style="crosshair"] #kiro-cursor-ring .kiro-inner {
+    width:  1px;
+    height: 1px;
+    background: transparent;
+    box-shadow:
+        0 calc(var(--kiro-size, 12px) * -2.5) 0 1px var(--kiro-color, #00ffff),
+        0 calc(var(--kiro-size, 12px) *  2.5) 0 1px var(--kiro-color, #00ffff),
+        calc(var(--kiro-size, 12px) * -2.5) 0 0 1px var(--kiro-color, #00ffff),
+        calc(var(--kiro-size, 12px) *  2.5) 0 0 1px var(--kiro-color, #00ffff);
+    opacity: 0.8;
+}
+
+body[data-kiro-style="crosshair"].kiro-hover #kiro-cursor .kiro-inner {
+    transform: translate(-50%, -50%) scale(1.5);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   3. ARROW
+══════════════════════════════════════════════════════════════════════════════ */
+body[data-kiro-style="arrow"] #kiro-cursor .kiro-inner {
+    width:  calc(var(--kiro-size, 12px) * 2);
+    height: calc(var(--kiro-size, 12px) * 2.4);
+    background: var(--kiro-color, #00ffff);
+    border-radius: 0;
+    clip-path: polygon(0 0, 100% 38%, 58% 58%, 38% 100%, 28% 62%, 0 100%);
+    /* Arrow hot-spot is at tip (top-left), not centre — offset accordingly */
+    transform: translate(-8%, -8%);
+    mix-blend-mode: difference;
+}
+
+body[data-kiro-style="arrow"] #kiro-cursor-ring .kiro-inner {
+    display: none;
+}
+
+body[data-kiro-style="arrow"].kiro-hover #kiro-cursor .kiro-inner {
+    transform: translate(-8%, -8%) scale(1.15);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   4. SPOTLIGHT
+══════════════════════════════════════════════════════════════════════════════ */
+body[data-kiro-style="spotlight"] #kiro-cursor .kiro-inner {
+    width:  calc(var(--kiro-size, 12px) * 1.2);
+    height: calc(var(--kiro-size, 12px) * 1.2);
+    border-radius: 50%;
+    background: var(--kiro-color, #00ffff);
+    box-shadow: 0 0 10px 2px var(--kiro-color, #00ffff);
+    mix-blend-mode: screen;
+}
+
+body[data-kiro-style="spotlight"] #kiro-cursor-ring .kiro-inner {
+    width:  calc(var(--kiro-size, 12px) * 9);
+    height: calc(var(--kiro-size, 12px) * 9);
+    border-radius: 50%;
+    background: radial-gradient(
+        circle,
+        color-mix(in srgb, var(--kiro-color, #00ffff) 18%, transparent) 0%,
+        transparent 70%
+    );
+    opacity: 0.7;
+    mix-blend-mode: screen;
+}
+
+body[data-kiro-style="spotlight"].kiro-hover #kiro-cursor-ring .kiro-inner {
+    transform: translate(-50%, -50%) scale(1.4);
+    opacity: 1;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   5. GLITCH
+══════════════════════════════════════════════════════════════════════════════ */
+body[data-kiro-style="glitch"] #kiro-cursor .kiro-inner {
+    width:  var(--kiro-size, 12px);
+    height: var(--kiro-size, 12px);
+    border-radius: 50%;
+    background: var(--kiro-color, #00ffff);
+}
+
+body[data-kiro-style="glitch"] #kiro-cursor .kiro-inner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: #ff003c;
+    opacity: 0.7;
+    mix-blend-mode: screen;
+    transform: translate(-3px, 1px);
+}
+
+body[data-kiro-style="glitch"] #kiro-cursor .kiro-inner::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: #0048ff;
+    opacity: 0.7;
+    mix-blend-mode: screen;
+    transform: translate(3px, -1px);
+}
+
+body[data-kiro-style="glitch"] #kiro-cursor-ring .kiro-inner {
+    width:  calc(var(--kiro-size, 12px) * 3);
+    height: calc(var(--kiro-size, 12px) * 3);
+    border-radius: 50%;
+    border: 1px solid var(--kiro-color, #00ffff);
+    opacity: 0.5;
+}
+
+body[data-kiro-style="glitch"].kiro-hover #kiro-cursor .kiro-inner::before {
+    transform: translate(-6px, 2px);
+}
+body[data-kiro-style="glitch"].kiro-hover #kiro-cursor .kiro-inner::after {
+    transform: translate(6px, -2px);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   6. NEON
+══════════════════════════════════════════════════════════════════════════════ */
+body[data-kiro-style="neon"] #kiro-cursor .kiro-inner {
+    width:  var(--kiro-size, 12px);
+    height: var(--kiro-size, 12px);
+    border-radius: 50%;
+    background: #fff;
+    box-shadow:
+        0 0  4px 1px var(--kiro-color, #00ffff),
+        0 0 12px 3px var(--kiro-color, #00ffff),
+        0 0 22px 6px color-mix(in srgb, var(--kiro-color, #00ffff) 40%, transparent);
+}
+
+body[data-kiro-style="neon"] #kiro-cursor-ring .kiro-inner {
+    width:  calc(var(--kiro-size, 12px) * 4);
+    height: calc(var(--kiro-size, 12px) * 4);
+    border-radius: 50%;
+    border: 2px solid var(--kiro-color, #00ffff);
+    box-shadow:
+        inset 0 0 8px var(--kiro-color, #00ffff),
+              0 0 8px var(--kiro-color, #00ffff);
+    opacity: 0.85;
+}
+
+body[data-kiro-style="neon"].kiro-hover #kiro-cursor .kiro-inner {
+    transform: translate(-50%, -50%) scale(1.6);
+    box-shadow:
+        0 0  8px 2px var(--kiro-color, #00ffff),
+        0 0 22px 7px var(--kiro-color, #00ffff),
+        0 0 40px 12px color-mix(in srgb, var(--kiro-color, #00ffff) 40%, transparent);
+}
+body[data-kiro-style="neon"].kiro-hover #kiro-cursor-ring .kiro-inner {
+    transform: translate(-50%, -50%) scale(1.3);
+    opacity: 1;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   7. GHOST
+══════════════════════════════════════════════════════════════════════════════ */
+body[data-kiro-style="ghost"] #kiro-cursor .kiro-inner {
+    display: none;
+}
+
+body[data-kiro-style="ghost"] #kiro-cursor-ring .kiro-inner {
+    width:  calc(var(--kiro-size, 12px) * 3.5);
+    height: calc(var(--kiro-size, 12px) * 3.5);
+    border-radius: 50%;
+    border: 1.5px solid var(--kiro-color, #00ffff);
+    background: color-mix(in srgb, var(--kiro-color, #00ffff) 8%, transparent);
+    opacity: 0.45;
+}
+
+body[data-kiro-style="ghost"].kiro-hover #kiro-cursor-ring .kiro-inner {
+    transform: translate(-50%, -50%) scale(1.6);
+    opacity: 0.75;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   8. EMOJI STAR
+══════════════════════════════════════════════════════════════════════════════ */
+body[data-kiro-style="emoji"] #kiro-cursor .kiro-inner {
+    width:  calc(var(--kiro-size, 12px) * 2.2);
+    height: calc(var(--kiro-size, 12px) * 2.2);
+    border-radius: 0;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(var(--kiro-size, 12px) * 1.8);
+    line-height: 1;
+    color: var(--kiro-color, #00ffff);
+    filter: drop-shadow(0 0 5px var(--kiro-color, #00ffff));
+}
+
+body[data-kiro-style="emoji"] #kiro-cursor .kiro-inner::after {
+    content: '✦';
+}
+
+body[data-kiro-style="emoji"] #kiro-cursor-ring .kiro-inner {
+    display: none;
+}
+
+body[data-kiro-style="emoji"].kiro-hover #kiro-cursor .kiro-inner {
+    transform: translate(-50%, -50%) scale(1.4);
+    filter: drop-shadow(0 0 10px var(--kiro-color, #00ffff));
+}

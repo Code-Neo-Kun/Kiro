@@ -1,0 +1,78 @@
+/*
+ * cursor-base.css — Kiro Cursor v3.1
+ *
+ * TWO-LAYER ARCHITECTURE (fixes JS vs CSS transform conflict):
+ *
+ *   #kiro-cursor          → OUTER wrapper: JS sets transform (position only)
+ *   #kiro-cursor .kiro-inner → INNER shell:  CSS sets animation (scale/rotate/opacity)
+ *
+ * Because JS never touches .kiro-inner and CSS never touches #kiro-cursor's
+ * transform directly, they can never stomp each other.
+ */
+
+/* ── Global cursor suppression ─────────────────────────────────────────────── */
+body, *, *::before, *::after {
+    cursor: none !important;
+}
+
+/* ── OUTER wrappers — JS owns transform here, nothing else ─────────────────── */
+#kiro-cursor,
+#kiro-cursor-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 999999;
+    /* JS uses translate3d on this element for GPU-composited movement */
+    will-change: transform;
+    /* No width/height here — the inner shell defines the visual size */
+    width: 0;
+    height: 0;
+    /* Invisible until JS runs and adds kiro-active */
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+/* Visible once JS stamps kiro-active on body */
+body.kiro-active #kiro-cursor,
+body.kiro-active #kiro-cursor-ring {
+    opacity: 1;
+}
+
+/* Mouse left window */
+body.kiro-hidden #kiro-cursor,
+body.kiro-hidden #kiro-cursor-ring {
+    opacity: 0 !important;
+    transition: opacity 0.15s ease;
+}
+
+/* ── INNER shells — CSS animations run here, JS never touches them ─────────── */
+#kiro-cursor .kiro-inner,
+#kiro-cursor-ring .kiro-inner {
+    /*
+     * Centred on the outer wrapper's origin (which JS placed at the mouse pos).
+     * translate(-50%, -50%) shifts the visual centre to the hot-spot.
+     * CSS animations ADD to this transform via their own transform chain
+     * on the inner element — so there is zero conflict with the outer wrapper.
+     */
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+    will-change: transform, opacity;
+    /* Smooth hover transitions on the inner shell */
+    transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1),
+                opacity   0.15s ease;
+}
+
+/* ── Particle container ─────────────────────────────────────────────────────── */
+#kiro-particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+    z-index: 999998;
+    overflow: visible;
+}
